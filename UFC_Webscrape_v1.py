@@ -39,7 +39,7 @@ for Event_ID in All_Events_Table.findAll('a',href=True):
     Event_IDs.append(Event_ID.get('href'))
 
 All_Events_df['Event_ID'] = Event_IDs
-#First row is the next/upcoming fight, we are only interested in past fights with stats
+#First row is the next/upcoming UFC event, we are only interested in past fights with stats
 All_Events_df.drop([0], inplace=True)
 All_Events_df.reset_index(inplace=True, drop=True)
 All_Events_df.to_csv('UFC_Events.csv')
