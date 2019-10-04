@@ -96,6 +96,7 @@ for index, row in All_Fights_df.iterrows():
     print(fighter_1_1)
 
 
+
 print(fighter_1)
 # print(f1_results.head())
 # print(f1_name.head())
