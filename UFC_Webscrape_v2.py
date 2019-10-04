@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import urllib.request
 
-############################################### URL's of Interest ##############################################
+################################################## URL's of Interest ###################################################
 Ufc_Events_Url = urllib.request.urlopen("http://www.ufcstats.com/statistics/events/completed?page=all").read()
 Ufc_Fighters_Url = urllib.request.urlopen("http://ufcstats.com/statistics/fighters?char=a&page=all").read()
 
@@ -24,7 +24,7 @@ Ufc_Fighters_Url = urllib.request.urlopen("http://ufcstats.com/statistics/fighte
 #BINGO -- {Table class="b-statistics__table-events"}
 
 
-################################################# All Events #################################################
+##################################################### All Events #######################################################
 
 All_Events_Soup = BeautifulSoup(Ufc_Events_Url, 'lxml')
 All_Events_Table = All_Events_Soup.find_all('table')[0]
@@ -45,7 +45,7 @@ All_Events_df.reset_index(inplace=True, drop=True)
 All_Events_df.to_csv('UFC_Events.csv')
 
 
-################################################# All Fights #################################################
+###################################################### All Fights #####################################################
 #Now we need to get the fights data from all events. The 'Event_ID' url will be useful.
 All_Fights_df = []
 Fight_IDs = []
@@ -64,12 +64,39 @@ for index, row in All_Events_df.iterrows():
 All_Fights_df = pd.concat(All_Fights_df, ignore_index=True)
 Fight_IDs_df = pd.DataFrame(Fight_IDs)
 All_Fights_df = pd.concat([All_Fights_df, Fight_IDs_df], ignore_index=True, axis=1)
-All_Fights_df = All_Fights_df.rename(columns={0:"W_L", 1:"Fighter_Names",2:"STR", 3:"TD", 4:"SUB", 5:"PASS", 6:"Weight_Class", 7:"Method", 8:"Round", 9:"Time", 10:"Event_ID", 11:"Fight_ID"})
+All_Fights_df = All_Fights_df.rename(columns={0:"W_L", 1:"Fighter_Names",2:"STR", 3:"TD", 4:"SUB", 5:"PASS", 6:"Weight_Class", 7:"Method", 8:"Round", 9:"Time", 10:"Fight_ID", 11:"Event_ID"})
 All_Fights_df.to_csv('UFC_Fights.csv')
 
-
+############################################### Fight Stats#############################################################
 # def scrape_fight_data(Event_ID):
 #     for tr in trs:
 #         df_rows = []
 #         for td in tds:
 #             if td == 0: continue
+
+
+# f1_results = []
+# f1_name = []
+# f1_nickname = []
+fighter_1 = []
+for index, row in All_Fights_df.iterrows():
+    url = row["Fight_ID"]
+    soup = BeautifulSoup(requests.get(url).text, 'lxml')
+    fighter_1_result = soup.findAll("i", attrs= {'class': 'b-fight-details__person-status'})
+    fighter_1_name = soup.findAll("h3", attrs = {'class': 'b-fight-details__person-name'})
+    fighter_1_nickname = soup.findAll("p", attrs = {'class': 'b-fight-details__person-title'})
+    # f1_result = fighter_1_result.get_text()
+    # f1_result = f1_results.append(f1_result)
+    # f1_name = fighter_1_name.get_text()
+    # f1_name = f1_name.append(f1_result)
+    # f1_nickname = fighter_1_nickname.get_text()
+    # f1_nickname = f1_nickname.append(f1_result)
+
+    fighter_1_1 = {'result':fighter_1_result.get_text(strip = True), 'name':fighter_1_name.get_text(strip = True), 'nickname':fighter_1_nickname.get_text(strip = True)}
+    print(fighter_1_1)
+
+
+print(fighter_1)
+# print(f1_results.head())
+# print(f1_name.head())
+# print(f1_nickname.head())
