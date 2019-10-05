@@ -21,29 +21,43 @@ UFC_Fights.drop(UFC_Fights.columns[[0]],axis=1, inplace=True)
 #             if td == 0: continue
 
 
+
+
+
 # f1_results = []
 # f1_name = []
 # f1_nickname = []
-fighter_1 = []
-for index, row in All_Fights_df.iterrows():
+fight = []
+for index, row in UFC_Fights.iterrows():
     url = row["Fight_ID"]
     soup = BeautifulSoup(requests.get(url).text, 'lxml')
-    fighter_1_result = soup.findAll("i", attrs= {'class': 'b-fight-details__person-status'})
-    fighter_1_name = soup.findAll("h3", attrs = {'class': 'b-fight-details__person-name'})
-    fighter_1_nickname = soup.findAll("p", attrs = {'class': 'b-fight-details__person-title'})
-    # f1_result = fighter_1_result.get_text()
-    # f1_result = f1_results.append(f1_result)
-    # f1_name = fighter_1_name.get_text()
-    # f1_name = f1_name.append(f1_result)
-    # f1_nickname = fighter_1_nickname.get_text()
-    # f1_nickname = f1_nickname.append(f1_result)
-
-    fighter_1_1 = {'result':fighter_1_result, 'name':fighter_1_name, 'nickname':fighter_1_nickname}
-    print(fighter_1_1)
+    event_name = soup.find('h2', attrs={'class': 'b-content__title'})
+    fighter_1_result = soup.findAll("i", attrs= {'class': 'b-fight-details__person-status'})[0]
+    fighter_1_name = soup.findAll("h3", attrs = {'class': 'b-fight-details__person-name'})[0]
+    fighter_1_nickname = soup.findAll("p", attrs = {'class': 'b-fight-details__person-title'})[0]
+    fighter_2_result = soup.findAll("i", attrs= {'class': 'b-fight-details__person-status'})[1]
+    fighter_2_name = soup.findAll("h3", attrs = {'class': 'b-fight-details__person-name'})[1]
+    fighter_2_nickname = soup.findAll("p", attrs = {'class': 'b-fight-details__person-title'})[1]
+    weight_class = soup.find('div', attrs = {'class':'b-fight-details__fight-head'})
 
 
+    method = soup.find('i', attrs={'class':'b-fight-details__text-item_first'})
+    round = soup.findAll('i', attrs={'class':'b-fight-details__text-item'})[0]
+    time = soup.findAll('i', attrs={'class':'b-fight-details__text-item'})[1]
+    round_format = soup.findAll('i', attrs={'class':'b-fight-details__text-item'})[2]
+    ref = soup.findAll('i', attrs={'class':'b-fight-details__text-item'})[3]
+    total_strikes = soup.findAll('seletion')
+    fight = {'Event_Name':event_name.get_text(strip=True),'Result_Fighter_1':fighter_1_result.get_text(strip=True),
+             'Name_Fighter_1':fighter_1_name.get_text(strip=True), 'Nickname_Fighter_1':fighter_1_nickname.get_text(strip=True),
+             'Result_Fighter_2':fighter_2_result.get_text(strip=True), 'Name_Fighter_2':fighter_2_name.get_text(strip=True),
+             'Nickname_Fighter_2':fighter_2_nickname.get_text(strip=True),'Weight_Class':weight_class.get_text(strip=True),
+             'Method':method.get_text(strip=True), 'Round':round.get_text(strip = True), 'Time':time.get_text(strip = True),
+             'Round_Format':round_format.get_text(strip=True), 'Ref':ref.get_text(strip=True)}
+    print(fight)
 
-print(fighter_1)
-# print(f1_results.head())
-# print(f1_name.head())
-# print(f1_nickname.head())
+
+
+# print(fighter_1)
+# # print(f1_results.head())
+# # print(f1_name.head())
+# # print(f1_nickname.head())
