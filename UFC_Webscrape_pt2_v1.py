@@ -6,6 +6,13 @@ import pandas as pd
 import urllib.request
 
 
+pd.set_option('display.max_columns', 20)
+UFC_Events = pd.read_csv('UFC_Events.csv')
+UFC_Events.drop(UFC_Events.columns[[0]],axis=1, inplace=True)
+UFC_Fights = pd.read_csv('UFC_Fights.csv')
+UFC_Fights.drop(UFC_Fights.columns[[0]],axis=1, inplace=True)
+#print(UFC_Events)
+#print(UFC_Fights)
 ############################################### Fight Stats#############################################################
 # def scrape_fight_data(Event_ID):
 #     for tr in trs:
