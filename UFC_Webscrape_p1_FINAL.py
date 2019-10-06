@@ -7,7 +7,7 @@ import urllib.request
 
 ################################################## URL's of Interest ###################################################
 Ufc_Events_Url = urllib.request.urlopen("http://www.ufcstats.com/statistics/events/completed?page=all").read()
-Ufc_Fighters_Url = urllib.request.urlopen("http://ufcstats.com/statistics/fighters?char=a&page=all").read()
+
 
 
 ################################################# Explore URL #################################################
